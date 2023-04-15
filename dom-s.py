@@ -3,7 +3,7 @@ import whois
 import argparse
 import colorama
 from colorama import Fore, Back, Style
-from dns.resolver.Resolver import resolve
+import dns.resolver
 
 colorama.init(autoreset=True)
 
@@ -24,10 +24,11 @@ def subdomain_discovering(domain, subdomain_list):
 
 def resolve_dns(domain):
 	record_types = ["A", "AAAA", "CNAME", "MX", "NS", "SOA", "TXT"]
+	resolver = dns.resolver.Resolver()
 	try:
 		for record_type in record_types:
 			try:
-				answer = resolve(domain, record_type)
+				answer = resolver.resolve(domain, record_type)
 			except dns.resolver.NoAnswer:
 				continue
 
